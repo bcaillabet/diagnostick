@@ -1,22 +1,22 @@
-name: Rust
-
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+name: Rust CI
+on: [push]
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
-
+  Checks:
+    name: Run linter
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
+      - uses: action/checkouts@v4
+      - name: linter
+        run: cargo check
+      - name: run unit tests
+        run: cargo test --verbose
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
     - name: Build
       run: cargo build --verbose
-    - name: Run tests
-      run: cargo test --verbose
