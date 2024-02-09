@@ -1,6 +1,13 @@
+pub mod config;
 pub mod modules;
 
-use modules::system::{self, linux::Linux};
+use std::fs::{create_dir_all, File};
+use std::io::Write;
+use std::path::Path;
+
+use modules::system::{detect_linux, linux::Linux};
+use serde::{Deserialize, Serialize};
+use serde_json::{to_string_pretty, Result};
 
 pub const BANNER: &str = r#"
     ____  _                              __  _      __
@@ -11,8 +18,27 @@ pub const BANNER: &str = r#"
               /____/
 "#;
 
-pub fn run_checks() {
-    let linux_infos: Linux = system::detect_linux();
+#[derive(Serialize, Deserialize)]
+pub struct Diagnostick {
+    system: Linux,
+}
 
-    println!("{}", linux_infos.to_string());
+impl Diagnostick {
+    pub fn new() -> Diagnostick {
+        Diagnostick {
+            system: detect_linux(),
+        }
+    }
+
+    // TODO better result...
+    pub fn save(self, output_path: &Path) -> Result<()> {
+        create_dir_all(output_path).unwrap();
+        let mut outfile: File = File::create(Path::join(output_path, "output.json")).unwrap();
+
+        outfile
+            .write_all(to_string_pretty(&self).unwrap().as_bytes())
+            .unwrap();
+
+        Ok(())
+    }
 }

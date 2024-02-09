@@ -1,6 +1,10 @@
+use std::path::Path;
+
 use clap::Parser;
 
-use diagnostick::run_checks;
+use diagnostick::config::config_file::load_configuration;
+use diagnostick::config::config_file::ConfigurationFile;
+use diagnostick::Diagnostick;
 use diagnostick::BANNER;
 
 /// Configuration Checker
@@ -16,5 +20,16 @@ pub struct Args {
 fn main() {
     print!("{}", BANNER);
 
-    run_checks();
+    let args: Args = Args::parse();
+
+    let config_path: Option<&str> = match args.configuration_file.is_empty() {
+        true => None,
+        _ => Some(&args.configuration_file),
+    };
+
+    let config: ConfigurationFile = load_configuration(config_path);
+    let diag: Diagnostick = Diagnostick::new();
+    diag.save(Path::new(&(config.output))).unwrap();
+
+    dbg!(config);
 }

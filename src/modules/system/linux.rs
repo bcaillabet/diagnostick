@@ -3,7 +3,9 @@ use std::{
     process::{Command, Output},
 };
 
-#[derive(Debug)]
+use serde::{Deserialize, Serialize};
+
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Linux {
     hostname: String,
     distro_name: String,
