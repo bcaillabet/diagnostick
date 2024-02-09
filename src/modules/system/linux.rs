@@ -20,7 +20,7 @@ impl ToString for Linux {
 }
 
 impl Linux {
-    fn new() -> Linux {
+    pub fn new() -> Linux {
         Linux {
             hostname: "".to_string(),
             distro_name: "".to_string(),
@@ -28,7 +28,7 @@ impl Linux {
         }
     }
 
-    fn parse_os_release(mut self) -> Self {
+    pub fn parse_os_release(mut self) -> Self {
         read_to_string("/etc/os-release")
             .unwrap()
             .lines()
@@ -44,7 +44,7 @@ impl Linux {
         self
     }
 
-    fn parse_uname(mut self) -> Self {
+    pub fn parse_uname(mut self) -> Self {
         let output: Output = Command::new("uname")
             .arg("-a")
             .output()
@@ -63,10 +63,4 @@ impl Linux {
 
         self
     }
-}
-
-pub fn detect() -> Linux {
-    let linux: Linux = Linux::new().parse_os_release().parse_uname();
-
-    linux
 }

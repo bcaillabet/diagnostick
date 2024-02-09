@@ -1,1 +1,2 @@
-pub mod os_infos;
+pub mod network;
+pub mod system;

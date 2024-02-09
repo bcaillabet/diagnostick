@@ -6,7 +6,7 @@ env:
 
 jobs:
   Checks:
-    name: Run linter
+    name: Run checks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

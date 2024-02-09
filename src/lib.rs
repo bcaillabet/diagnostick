@@ -1,6 +1,6 @@
 mod modules;
 
-use modules::os_infos::{self, Linux};
+use modules::system::{self, linux::Linux};
 
 pub const BANNER: &str = r#"
     ____  _                              __  _      __
@@ -12,7 +12,7 @@ pub const BANNER: &str = r#"
 "#;
 
 pub fn run_checks() {
-    let linux_infos: Linux = os_infos::detect();
+    let linux_infos: Linux = system::detect_linux();
 
     println!("{}", linux_infos.to_string());
 }
