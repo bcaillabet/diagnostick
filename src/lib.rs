@@ -1,4 +1,4 @@
-mod modules;
+pub mod modules;
 
 use modules::system::{self, linux::Linux};
 

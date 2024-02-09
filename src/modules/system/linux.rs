@@ -35,7 +35,7 @@ impl Linux {
             .for_each(|line| {
                 if line.starts_with("NAME=") {
                     match line.strip_prefix("NAME=") {
-                        Some(x) => self.distro_name = x.to_string(),
+                        Some(s) => self.distro_name = s.to_string(),
                         None => self.distro_name = "Undefined".to_string(),
                     }
                 }
@@ -55,12 +55,16 @@ impl Linux {
             self.version = "undefined".to_string();
         } else {
             let output_str: String = String::from_utf8(output.stdout).unwrap();
-            let output_splited: Vec<&str> = output_str.split(" ").collect();
+            let fields: Vec<&str> = output_str.split(" ").collect();
 
-            self.hostname = output_splited[1].to_string();
-            self.version = output_splited[2].to_string();
+            self.hostname = fields[1].to_string();
+            self.version = fields[2].to_string();
         }
 
         self
     }
 }
+
+#[cfg(test)]
+#[path = "tests/linux_tests.rs"]
+mod linux_tests;
