@@ -27,6 +27,8 @@ fn main() {
         _ => Some(&args.configuration_file),
     };
 
+    // TODO Manage verbose
+
     let config: ConfigurationFile = load_configuration(config_path);
     let diag: Diagnostick = Diagnostick::new();
     diag.save(Path::new(&(config.output))).unwrap();

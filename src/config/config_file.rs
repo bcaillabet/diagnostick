@@ -2,7 +2,10 @@ use serde::{Deserialize, Serialize};
 use std::fs;
 
 #[derive(Serialize, Deserialize, Debug)]
+
+/// Configuration structure
 pub struct ConfigurationFile {
+    /// Output path where to write diagnostick
     pub output: String,
 }
 
