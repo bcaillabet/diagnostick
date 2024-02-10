@@ -12,3 +12,11 @@ To get options, use:
 
 to load configuration file, use:
 ```cargo run -- --configuration-file <PATH>```
+
+## Configuration file
+For the moment, the configuration is :
+```
+{
+    "output": "<DIRPATH_TO_WRITE_OUTPUT>"
+}
+```
