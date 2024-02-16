@@ -33,5 +33,5 @@ fn main() {
     let diag: Diagnostick = Diagnostick::new();
     diag.save(Path::new(&(config.output))).unwrap();
 
-    dbg!(config);
+    println!("Output saved on dir '{}' !", &(config.output));
 }

@@ -5,7 +5,10 @@ use std::fs::{create_dir_all, File};
 use std::io::Write;
 use std::path::Path;
 
+use modules::packaging::get_packages;
+use modules::packaging::packages::Packages;
 use modules::system::{detect_linux, linux::Linux};
+
 use serde::{Deserialize, Serialize};
 use serde_json::{to_string_pretty, Result};
 
@@ -21,12 +24,14 @@ pub const BANNER: &str = r#"
 #[derive(Serialize, Deserialize)]
 pub struct Diagnostick {
     system: Linux,
+    packaging: Packages,
 }
 
 impl Diagnostick {
     pub fn new() -> Diagnostick {
         Diagnostick {
             system: detect_linux(),
+            packaging: get_packages(),
         }
     }
 
