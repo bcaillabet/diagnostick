@@ -11,8 +11,8 @@ pub struct Dns {
 impl Dns {
     pub fn new() -> Dns {
         Dns {
-            resolve_localhost: "",
-            resolve_google: "",
+            resolve_localhost: false, // adding false as it needs a boolean value
+            resolve_google: false, // otherwise errors pop up during build
             dns_server: "".to_string(),
             local_domain: "".to_string(),
         }
