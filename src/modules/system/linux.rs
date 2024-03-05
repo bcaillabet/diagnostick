@@ -10,6 +10,9 @@ pub struct Linux {
     hostname: String,
     distro_name: String,
     version: String,
+    username: String,
+    uid: String,
+    gid: String,
 }
 
 impl ToString for Linux {
@@ -27,6 +30,9 @@ impl Linux {
             hostname: "".to_string(),
             distro_name: "".to_string(),
             version: "".to_string(),
+            username: "".to_string(),
+            uid: "".to_string(),
+            gid: "".to_string(),
         }
     }
 
@@ -61,6 +67,22 @@ impl Linux {
 
             self.hostname = fields[1].to_string();
             self.version = fields[2].to_string();
+        }
+
+        self
+    }
+
+    pub fn users(mut self) -> Self {
+        match get_user_by_uid(get_current_uid()) {
+            Some(user) => {
+                self.username = user.name().to_string_lossy().to_string();
+                self.uid = user.uid().to_string();
+                self.gid = user.primary_group_id().to_string();
+            },
+            None => {
+                // Will be updating here to handle errors
+                // In case no current user is found
+            }
         }
 
         self
