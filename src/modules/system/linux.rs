@@ -15,6 +15,7 @@ pub struct Linux {
     uid: String,
     gid: String,
     service_users: String,
+    system_users: String,
 }
 
 impl ToString for Linux {
@@ -36,6 +37,7 @@ impl Linux {
             uid: "".to_string(),
             gid: "".to_string(),
             service_users: "".to_string(),
+            system_users: "".to_string(),
         }
     }
 
@@ -90,15 +92,20 @@ impl Linux {
             }
         }
 
-        // Retrieving service users count
+        // Retrieving service and system users count
         let mut service_users_cnt = 0;
+        let mut system_users_cnt = 0;
         let iter = unsafe { all_users()};
         for user in iter {
             if user.uid() < 1000 {
                 service_users_cnt += 1;
             }
+            else if user.uid() >= 1000 && user.uid() < 65534 {
+                system_users_cnt += 1;
+            }
         }
         self.service_users = service_users_cnt.to_string();
+        self.system_users = system_users_cnt.to_string();
 
         self
     }
