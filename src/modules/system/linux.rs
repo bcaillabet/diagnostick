@@ -4,7 +4,7 @@ use std::{
 };
 
 use serde::{Deserialize, Serialize};
-use users::{get_user_by_uid, get_current_uid};
+use users::{all_users, get_user_by_uid, get_current_uid};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Linux {
@@ -14,6 +14,7 @@ pub struct Linux {
     username: String,
     uid: String,
     gid: String,
+    service_users: String,
 }
 
 impl ToString for Linux {
@@ -34,6 +35,7 @@ impl Linux {
             username: "".to_string(),
             uid: "".to_string(),
             gid: "".to_string(),
+            service_users: "".to_string(),
         }
     }
 
@@ -74,6 +76,8 @@ impl Linux {
     }
 
     pub fn users(mut self) -> Self {
+
+        // Retrieving current user information (username,uid,gid)
         match get_user_by_uid(get_current_uid()) {
             Some(user) => {
                 self.username = user.name().to_string_lossy().to_string();
@@ -85,6 +89,16 @@ impl Linux {
                 // In case no current user is found
             }
         }
+
+        // Retrieving service users count
+        let mut service_users_cnt = 0;
+        let iter = unsafe { all_users()};
+        for user in iter {
+            if user.uid() < 1000 {
+                service_users_cnt += 1;
+            }
+        }
+        self.service_users = service_users_cnt.to_string();
 
         self
     }
