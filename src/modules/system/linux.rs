@@ -4,6 +4,7 @@ use std::{
 };
 
 use serde::{Deserialize, Serialize};
+use users::{get_user_by_uid, get_current_uid};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Linux {
