@@ -4,7 +4,7 @@ use std::{
 };
 
 use serde::{Deserialize, Serialize};
-use users::{all_users, get_user_by_uid, get_current_uid};
+use users::{all_users, get_user_by_uid, get_current_uid, get_effective_uid, get_effective_gid};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Linux {
@@ -13,7 +13,9 @@ pub struct Linux {
     version: String,
     username: String,
     uid: String,
+    euid: String,
     gid: String,
+    egid: String,
     service_users: String,
     system_users: String,
 }
@@ -79,12 +81,14 @@ impl Linux {
 
     pub fn users(mut self) -> Self {
 
-        // Retrieving current user information (username,uid,gid)
+        // Retrieving current user information (username,uid, euid, gid, egid)
         match get_user_by_uid(get_current_uid()) {
             Some(user) => {
                 self.username = user.name().to_string_lossy().to_string();
                 self.uid = user.uid().to_string();
+                self.euid = get_effective_uid().to_string(); //euid is not part of the user method so it needs the fn here 
                 self.gid = user.primary_group_id().to_string();
+                self.egid = get_effective_gid().to_string(); //egid, same applies here
             },
             None => {
                 // Will be updating here to handle errors
