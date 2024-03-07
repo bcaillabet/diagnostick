@@ -10,14 +10,15 @@ cargo run
 
 ## Options
 
+**Getting options**
 
-### Getting options
 Use ```cargo``` to get options and bring the documentation:
 ```bash
 cargo run -- --help
 ```
 
-### Loading configuration file
+**Loading configuration file**
+
 Use ```cargo``` to load a configuration file:
 ```bash
 cargo run -- --configuration-file <PATH>
