@@ -3,6 +3,7 @@ use std::{
     process::{Command, Output},
 };
 
+use chrono::{DateTime, Local};
 use serde::{Deserialize, Serialize};
 use users::{all_users, get_user_by_uid, get_current_uid, get_effective_uid, get_effective_gid};
 
@@ -18,6 +19,7 @@ pub struct Linux {
     egid: String,
     service_users: String,
     system_users: String,
+    date: String,
 }
 
 impl ToString for Linux {
@@ -42,6 +44,7 @@ impl Linux {
             egid: "".to_string(),
             service_users: "".to_string(),
             system_users: "".to_string(),
+            date: "".to_string(),
         }
     }
 
@@ -112,6 +115,17 @@ impl Linux {
         }
         self.service_users = service_users_cnt.to_string();
         self.system_users = system_users_cnt.to_string();
+
+        self
+    }
+
+    pub fn sysclock(mut self) -> Self {
+        // Retrieving Date
+        let time_local_get: DateTime<Local> = Local::now();
+        let time_local_str = time_local_get.to_string();
+        self.date = time_local_str[..10].to_string();
+
+        // Retrieve Time...
 
         self
     }
