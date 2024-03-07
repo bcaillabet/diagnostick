@@ -1,22 +1,32 @@
 # diagnostick
-
-simple tool to check configuration and state of your computer (linux only)
+A simple tool to check the configuration and the state of your computer *(linux only)* 
 
 ## Run
-To run diagnostick run the command:
-```cargo run```
+Use ```cargo``` to run diagnostick:
+
+```bash
+cargo run
+```
 
 ## Options
-To get options, use:
-```cargo run -- --help```
 
-to load configuration file, use:
-```cargo run -- --configuration-file <PATH>```
 
-## Configuration file
-For the moment, the configuration is :
+### Getting options
+Use ```cargo``` to get options and bring the documentation:
+```bash
+cargo run -- --help
 ```
+
+### Loading configuration file
+Use ```cargo``` to load a configuration file:
+```bash
+cargo run -- --configuration-file <PATH>
+```
+
+## Output
+For the moment, the output is in the file ```output.json``` :
+```JSON
 {
-    "output": "<DIRPATH_TO_WRITE_OUTPUT>"
+    "key": "value"
 }
 ```
