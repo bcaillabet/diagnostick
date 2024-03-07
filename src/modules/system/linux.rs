@@ -37,7 +37,9 @@ impl Linux {
             version: "".to_string(),
             username: "".to_string(),
             uid: "".to_string(),
+            euid: "".to_string(),
             gid: "".to_string(),
+            egid: "".to_string(),
             service_users: "".to_string(),
             system_users: "".to_string(),
         }
